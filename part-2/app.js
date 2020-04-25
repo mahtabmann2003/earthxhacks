@@ -47,3 +47,28 @@ if ('serviceWorker' in navigator) {
   console.log('CLIENT: service worker is not supported.');
 }
 
+var image = document.getElementById("camera--output");
+
+// Take action when the image has loaded
+  image.addEventListener("load", function savelink() {
+    var imgCanvas = document.createElement("canvas"),
+        imgContext = imgCanvas.getContext("2d");
+
+    // Make sure canvas is as big as the picture
+    imgCanvas.width = image.width;
+    imgCanvas.height = image.height;
+
+    // Draw image into canvas element
+    imgContext.drawImage(image, 0, 0, image.width, image.height);
+
+    // Get canvas contents as a data URL
+    var imgAsDataURL = imgCanvas.toDataURL("image/png");
+
+    // Save image into localStorage
+    try {
+        localStorage.setItem("image", imgAsDataURL);
+    }
+    catch (e) {
+        console.log("Storage failed: " + e);
+    }
+}, false); 
